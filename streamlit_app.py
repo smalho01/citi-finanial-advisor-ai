@@ -57,12 +57,12 @@ if "memory" not in st.session_state: ### IMPORTANT.
         description="Use WolframAlpha for complex mathematical or scientific queries."
     )
 
-    # Google Finance 
-    os.environ["SERP_API_KEY"] = st.secrets["SERP_API"]
-    google_finance_tools = load_tools(["google-scholar", "google-finance"], llm=chat)
+    # # Google Finance 
+    # os.environ["SERP_API_KEY"] = st.secrets["SERP_API"]
+    # google_finance_tools = load_tools(["google-scholar", "google-finance"], llm=chat)
  
 
-    tools = [datetoday, serper_tool, wolfram_toolkit, YahooFinanceNewsTool()] + google_finance_tools
+    tools = [datetoday, serper_tool, wolfram_toolkit, YahooFinanceNewsTool()]
     
     # Now we add the memory object to the agent executor
     # prompt = hub.pull("hwchase17/react-chat")
