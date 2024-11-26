@@ -8,6 +8,8 @@ import os
 from langchain_community.utilities.wolfram_alpha import WolframAlphaAPIWrapper
 from langchain_community.utilities.alpha_vantage import AlphaVantageAPIWrapper
 from langchain_community.tools.yahoo_finance_news import YahooFinanceNewsTool
+from langchain_core.tools import Tool
+
 
 # Show title and description.
 st.title("💬 Chatbot")
@@ -37,7 +39,7 @@ if "memory" not in st.session_state: ### IMPORTANT.
         return "Today is " + str(date.today())
     
     # Setting up the Serper tool
-    os.environ["SERPER_API_KEY"] = st.secrets["SERPER_API"]
+    os.environ["SERPER_API_KEY"] = st.secrets["SERPER_API_KEY"]
     search = GoogleSerperAPIWrapper()
 
     serper_tool = Tool(
