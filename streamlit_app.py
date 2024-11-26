@@ -53,7 +53,7 @@ if "memory" not in st.session_state: ### IMPORTANT.
     wolfram = WolframAlphaAPIWrapper()
     wolfram_toolkit = Tool(
         name="WolframAlpha",
-        func=wolfram_tool.run,
+        func=wolfram.run,
         description="Use WolframAlpha for complex mathematical or scientific queries."
     )
 
