@@ -1,2 +1,7 @@
 streamlit
 openai
+langchain
+langchain_openai
+langchain-community
+wolframalpha
+google-search-results
