@@ -129,7 +129,7 @@ if "memory" not in st.session_state: ### IMPORTANT.
     exchange_rate_tool = Tool(
         name="CurrencyExchange",
         description="Get the exchange rate between two currencies. Provide 'from_currency' and 'to_currency' as inputs.",
-        func=lambda query: alpha_vantage._get_exchange_rate(*query.split(","))
+        func=(lambda query: alpha_vantage._get_exchange_rate(*query.split(",")))
     )
 
     # Tool for daily time series
@@ -171,7 +171,7 @@ if "memory" not in st.session_state: ### IMPORTANT.
     top_gainers_losers_tool = Tool(
         name="TopGainersAndLosers",
         description="Get the top 20 gainers, losers, and most active stocks in the US market. No input needed.",
-        func=lambda _: alpha_vantage._get_top_gainers_losers()
+        func=(lambda _: alpha_vantage._get_top_gainers_losers())
     )
 
 
