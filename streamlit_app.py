@@ -39,7 +39,7 @@ st.markdown("""
     }
             
     /* Target Streamlit footer */
-    .stBottomBlockContainer {
+    .st-emotion-cache-hzygls ea3mdgi6 {
         background-color: #c4c4c4 !important;
     }
 
