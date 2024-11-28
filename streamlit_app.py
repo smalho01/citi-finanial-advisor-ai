@@ -1,6 +1,7 @@
 import streamlit as st
 from langchain.memory import ConversationBufferWindowMemory
 from langchain_openai import ChatOpenAI
+import re
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 # from langchain import hub
 # from langchain_community.agent_toolkits.load_tools import load_tools
@@ -68,6 +69,12 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+
+def escape_math_symbols(text):
+    """
+    Escape text between $ symbols to prevent Markdown formatting
+    """
+    return text.replace('$', '&#36;')
 
 # Show title and description.
 st.title("💬 Citi Bank Financial Assistant")
@@ -304,10 +311,11 @@ if "memory" not in st.session_state: ### IMPORTANT.
 
 # Display the existing chat messages via `st.chat_message`.
 for message in st.session_state.memory.buffer:
+    safe_content = escape_math_symbols(message.content)
     if message.type == "human":
-        st.markdown(f'<div class="user-message">{message.content}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="user-message">{safe_content}</div>', unsafe_allow_html=True)
     elif message.type == "ai":
-        st.markdown(f'<div class="assistant-message">{message.content}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="assistant-message">{safe_content}</div>', unsafe_allow_html=True)
 
 
 # Create a chat input field to allow the user to enter a message. This will display
@@ -315,11 +323,13 @@ for message in st.session_state.memory.buffer:
 if prompt := st.chat_input("What financial advice do you need today?"):
     
     # question
-    st.markdown(f'<div class="user-message">{prompt}</div>', unsafe_allow_html=True)
+    safe_prompt = escape_math_symbols(message.content)
+    st.markdown(f'<div class="user-message">{safe_prompt}</div>', unsafe_allow_html=True)
 
     # Generate a response using the OpenAI API.
     response = st.session_state.agent_executor.invoke({"input":prompt})['output']
 
     # response
-    st.markdown(f'<div class="assistant-message">{response}</div>', unsafe_allow_html=True)
+    safe_response = escape_math_symbols(response)
+    st.markdown(f'<div class="assistant-message">{safe_response}</div>', unsafe_allow_html=True)
     # st.write(st.session_state.memory.buffer)
