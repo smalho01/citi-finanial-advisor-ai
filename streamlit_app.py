@@ -45,7 +45,7 @@ st.markdown("""
             
     /* Make the text box text more readable */
     textarea {
-      color: #FFFFFF;
+      background-color: #FFFFFF;
     }
 
 
