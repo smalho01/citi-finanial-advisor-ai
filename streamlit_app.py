@@ -70,49 +70,49 @@ if "memory" not in st.session_state: ### IMPORTANT.
 
     # Tool for currency exchange rates
     exchange_rate_tool = Tool(
-        name="Currency Exchange Rate",
+        name="CurrencyExchangeRate",
         description="Get the exchange rate between two currencies. Provide 'from_currency' and 'to_currency' as inputs.",
         func=lambda query: alpha_vantage._get_exchange_rate(*query.split(","))
     )
 
     # Tool for daily time series
     time_series_daily_tool = Tool(
-        name="Time Series Daily",
+        name="TimeSeriesDaily",
         description="Get daily time series data for a stock. Provide the stock symbol as input.",
         func=alpha_vantage._get_time_series_daily
     )
 
     # Tool for weekly time series
     time_series_weekly_tool = Tool(
-        name="Time Series Weekly",
+        name="TimeSeriesWeekly",
         description="Get weekly time series data for a stock. Provide the stock symbol as input.",
         func=alpha_vantage._get_time_series_weekly
     )
 
     # Tool for stock quote
     quote_tool = Tool(
-        name="Stock Quote",
+        name="StockQuote",
         description="Get the latest stock price and volume information. Provide the stock symbol as input.",
         func=alpha_vantage._get_quote_endpoint
     )
 
     # Tool for symbol search
     symbol_search_tool = Tool(
-        name="Symbol Search",
+        name="SymbolSearch",
         description="Search for stock symbols. Provide a partial or full name of a company as input.",
         func=alpha_vantage.search_symbols
     )
 
     # Tool for market news sentiment
     market_news_tool = Tool(
-        name="Market News Sentiment",
+        name="MarketNewsSentiment",
         description="Get live and historical market news sentiment for a given asset. Provide the stock symbol as input.",
         func=alpha_vantage._get_market_news_sentiment
     )
 
     # Tool for top gainers, losers, and most active stocks
     top_gainers_losers_tool = Tool(
-        name="Top Gainers and Losers",
+        name="TopGainersAndLosers",
         description="Get the top 20 gainers, losers, and most active stocks in the US market. No input needed.",
         func=lambda _: alpha_vantage._get_top_gainers_losers()
     )
