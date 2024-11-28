@@ -323,7 +323,7 @@ for message in st.session_state.memory.buffer:
 if prompt := st.chat_input("What financial advice do you need today?"):
     
     # question
-    safe_prompt = escape_math_symbols(message.content)
+    safe_prompt = escape_math_symbols(prompt)
     st.markdown(f'<div class="user-message">{safe_prompt}</div>', unsafe_allow_html=True)
 
     # Generate a response using the OpenAI API.
