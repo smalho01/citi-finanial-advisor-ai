@@ -35,12 +35,12 @@ st.markdown("""
             
     /* Target Streamlit header */
     .stApp header {
-        background-color: #e0e0e0 !important;
+        background-color: #c4c4c4 !important;
     }
-
+            
     /* Target Streamlit footer */
-    .stApp footer {
-        background-color: #e0e0e0 !important;
+    .stBottom, .st-emotion-cache-hzygls, .st-emotion-cache-arzcut, .st-emotion-cache-0, .st-emotion-cache-1wmy9hl, .st-emotion-cache-1n76uvr, .stElementContainer {
+        background-color: #c4c4c4 !important;
     }
 
     /* Enhanced Header Styling */
