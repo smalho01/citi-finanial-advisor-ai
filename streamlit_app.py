@@ -349,9 +349,9 @@ if "memory" not in st.session_state: ### IMPORTANT.
 for message in st.session_state.memory.buffer:
     safe_content = escape_math_symbols(message.content)
     if message.type == "human":
-        st.markdown(f'<div class="user-message">{safe_content}</div>', unsafe_allow_html=True)
+        st.markdown(safe_content)
     elif message.type == "ai":
-        st.markdown(f'<div class="assistant-message">{safe_content}</div>', unsafe_allow_html=True)
+        st.markdown(safe_content)
 
 
 # Create a chat input field to allow the user to enter a message. This will display
@@ -360,12 +360,12 @@ if prompt := st.chat_input("What financial advice do you need today?"):
     
     # question
     safe_prompt = escape_math_symbols(prompt)
-    st.markdown(f'<div class="user-message">{safe_prompt}</div>', unsafe_allow_html=True)
+    st.markdown(safe_prompt)
 
     # Generate a response using the OpenAI API.
     response = st.session_state.agent_executor.invoke({"input":prompt})['output']
 
     # response
     safe_response = escape_math_symbols(response)
-    st.markdown(f'<div class="assistant-message">{safe_response}</div>', unsafe_allow_html=True)
+    st.markdown(safe_response)
     # st.write(st.session_state.memory.buffer)
