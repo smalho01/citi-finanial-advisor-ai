@@ -48,8 +48,13 @@ st.markdown("""
     }
             
     /* Make the text box text more readable */
-    .st-ae {
-        background-color: #FFFFFF;
+    # .st-ae {
+    #     background-color: #FFFFFF;
+    # }
+            
+    text-area {
+        color: black
+        background-color: white        
     }
 
     .st-ae::placeholder {
