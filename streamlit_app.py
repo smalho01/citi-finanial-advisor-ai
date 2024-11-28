@@ -101,10 +101,6 @@ st.markdown("""
     </a>
 """, unsafe_allow_html=True)
 
-
-
-
-
 def escape_math_symbols(text):
     """
     Escapes and prettifies LaTeX-style math expressions for better readability,
