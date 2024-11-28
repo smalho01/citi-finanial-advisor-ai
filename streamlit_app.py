@@ -103,10 +103,10 @@ st.markdown("""
 
 def escape_math_symbols(text):
     """
-    Escapes and prettifies LaTeX-style math expressions for better readability,
+    Escapes and prettifies LaTeX-style math expressions for better readability
     while handling regular text correctly.
     """
-    # Pattern to detect LaTeX-style math expressions
+    # Regex pattern to detect LaTeX-like math expressions
     math_pattern = r'\\text{.*?}|\\frac|\\left|\\right|\^|[{}]'
 
     def prettify(match):
@@ -114,20 +114,24 @@ def escape_math_symbols(text):
         Processes matched LaTeX-like math expressions for user-friendly display.
         """
         expression = match.group(0)  # Extract the matched LaTeX expression
+        # Remove LaTeX-specific syntax
         expression = expression.replace(r'\text{', '').replace('}', '')
         expression = expression.replace(r'\frac', 'divide')
         expression = expression.replace(r'\left(', '(').replace(r'\right)', ')')
         expression = expression.replace(r'^', '**')  # Convert exponentiation
-        expression = expression.replace(r'{', '').replace(r'}', '')  # Remove brackets
+        expression = expression.replace(r'{', '').replace(r'}', '')  # Remove extra brackets
+        # Replace any lingering patterns like divideCost with proper spaces
+        expression = re.sub(r'divide\s*', 'divide ', expression)  # Add a space after "divide"
+        expression = re.sub(r'(?<=\d)(?=[A-Za-z])', ' ', expression)  # Add space between numbers and letters
         return expression
 
-    # Replace all LaTeX-style expressions with prettified versions
+    # Replace all LaTeX-like expressions with prettified versions
     prettified_text = re.sub(math_pattern, prettify, text)
 
     # Escape dollar signs for Markdown compatibility
     prettified_text = prettified_text.replace('$', '&#36;')
-
     return prettified_text
+
 # Show title and description.
 st.title("💬 Citi Bank Financial Assistant")
 
