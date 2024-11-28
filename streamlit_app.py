@@ -103,24 +103,10 @@ st.markdown("""
     </a>
 """, unsafe_allow_html=True)
 
-def wrap_latex_with_delimiters(text):
-    # Identify block math (assume it's between blank lines or delimited sections)
-    block_math_pattern = r"(?<!\$)\n\s*([^$]+?)\s*\n"  # Matches multiline math without delimiters
-    wrapped_text = re.sub(block_math_pattern, r"\n$$\1$$\n", text)
-
-    # Identify inline math (assume it's single-line expressions)
-    inline_math_pattern = r"(?<!\$)(\b[A-Za-z0-9_]+\s*=\s*[A-Za-z0-9_+*/^()]+)(?!\$)"
-    wrapped_text = re.sub(inline_math_pattern, r"$\1$", wrapped_text)
-
-    return wrapped_text
-
 def escape_math_symbols(text):
    
     formatted_result = text.replace('$', '&#36;')
-    wrapped_text = wrap_latex_with_delimiters(formatted_result)
-    markdown_formatter = mistune.create_markdown(renderer=mistune.HTMLRenderer(), plugins=[math])
-    markdown = markdown_formatter(wrapped_text)
-    return markdown
+    return formatted_result
 
 # Show title and description.
 st.title("💬 Citi Bank Financial Assistant")
@@ -326,6 +312,7 @@ if "memory" not in st.session_state: ### IMPORTANT.
 
     ## Response Format
 
+    Final output is displayed in a markdown renderer so display math functions accordingly in markdown friendly formats
     Use short, digestible messages
     Ask follow-up questions when information is incomplete
     Provide clear, actionable recommendations
