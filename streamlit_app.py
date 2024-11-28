@@ -44,9 +44,10 @@ st.markdown("""
     }
             
     /* Make the text box text more readable */
-    .st-ae.st-b1.st-bf.st-bg.st-bh.st-bi.st-bj.st-bk.st-bl.st-bm.st-b5.st-b6.st-bn.st-bo.st-bp.st-bq.st-br.st-bs.st-bt.st-bu.st-b8.st-b9.st-ba.st-bv.st-bc.st-bd.st-be.st-bw.st-bx.st-by.st-bz.st-c1 {
-        color: #333333 !important;
+    textarea {
+      color: #FFFFFF;
     }
+
 
     /* Enhanced Header Styling */
     .stTitle {
