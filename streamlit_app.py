@@ -104,16 +104,16 @@ st.markdown("""
 def escape_math_symbols(text):
     """
     Escapes and prettifies LaTeX-style math expressions for better readability,
-    handling both mathematical and regular text correctly.
+    while handling regular text correctly.
     """
-    # Pattern to detect LaTeX math expressions
+    # Pattern to detect LaTeX-style math expressions
     math_pattern = r'\\text{.*?}|\\frac|\\left|\\right|\^|[{}]'
 
-    def prettify(expression):
+    def prettify(match):
         """
-        Prettifies a single LaTeX-style mathematical expression.
+        Processes matched LaTeX-like math expressions for user-friendly display.
         """
-        # Replace common LaTeX formatting elements
+        expression = match.group(0)  # Extract the matched LaTeX expression
         expression = expression.replace(r'\text{', '').replace('}', '')
         expression = expression.replace(r'\frac', 'divide')
         expression = expression.replace(r'\left(', '(').replace(r'\right)', ')')
@@ -121,14 +121,13 @@ def escape_math_symbols(text):
         expression = expression.replace(r'{', '').replace(r'}', '')  # Remove brackets
         return expression
 
-    # Apply prettify to any matched LaTeX-like pattern
-    text = re.sub(math_pattern, prettify, text)
+    # Replace all LaTeX-style expressions with prettified versions
+    prettified_text = re.sub(math_pattern, prettify, text)
 
-    # Escape dollar signs for Markdown
-    text = text.replace('$', '&#36;')
+    # Escape dollar signs for Markdown compatibility
+    prettified_text = prettified_text.replace('$', '&#36;')
 
-    return text
-
+    return prettified_text
 # Show title and description.
 st.title("💬 Citi Bank Financial Assistant")
 
