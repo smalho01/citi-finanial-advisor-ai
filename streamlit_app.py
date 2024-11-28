@@ -1,8 +1,9 @@
 import streamlit as st
 from langchain.memory import ConversationBufferWindowMemory
 from langchain_openai import ChatOpenAI
-from langchain.agents import AgentExecutor, create_tool_calling_agent, load_tools
-from langchain import hub
+from langchain.agents import AgentExecutor, create_tool_calling_agent
+# from langchain import hub
+from langchain_community.agent_toolkits.load_tools import load_tools
 from langchain_community.utilities import GoogleSerperAPIWrapper
 import os
 from langchain_community.utilities.wolfram_alpha import WolframAlphaAPIWrapper
