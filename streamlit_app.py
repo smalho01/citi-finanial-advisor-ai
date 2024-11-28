@@ -49,10 +49,12 @@ st.markdown("""
             
     /* Make the text box text more readable */
     .st-ae {
-        color: black
         background-color: #FFFFFF;
     }
 
+    .st-ae::placeholder {
+        color: white
+    }
 
     /* Enhanced Header Styling */
     .stTitle {
