@@ -33,9 +33,9 @@ st.markdown("""
         color: var(--citi-blue);
     }
             
-    .st-emotion-cache-1y5f4eg {
-        color: var(--citi-white);
-    }
+    # .st-emotion-cache-1y5f4eg {
+    #     color: var(--citi-white);
+    # }
             
     /* Target Streamlit header */
     .stApp header {
@@ -49,7 +49,8 @@ st.markdown("""
             
     /* Make the text box text more readable */
     .st-ae {
-      background-color: #FFFFFF;
+        color: black
+        background-color: #FFFFFF;
     }
 
 
