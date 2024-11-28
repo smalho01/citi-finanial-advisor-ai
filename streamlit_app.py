@@ -13,7 +13,7 @@ from langchain_community.tools.yahoo_finance_news import YahooFinanceNewsTool
 from langchain_core.tools import Tool
 from langchain_core.prompts import ChatPromptTemplate
 
-# Custom CSS for Citi Bank branding
+# Updated Custom CSS for Citi Bank branding
 st.markdown("""
 <style>
     /* Citi Bank Color Palette */
@@ -22,6 +22,7 @@ st.markdown("""
         --citi-light-blue: #00A4E4;  /* Accent blue */
         --citi-white: #FFFFFF;
         --citi-gray: #F5F5F5;
+        --citi-button-hover: #002A85;  /* Darker blue for hover state */
     }
 
     /* App Container Styling */
@@ -30,21 +31,44 @@ st.markdown("""
         color: var(--citi-blue);
     }
 
-    /* Header Styling */
+    /* Enhanced Header Styling */
     .stTitle {
         color: var(--citi-blue);
         font-weight: bold;
         text-align: center;
+        padding: 15px 0;
+        margin-bottom: 20px;
+        border-bottom: 2px solid var(--citi-blue);
     }
 
-    /* Chat Input Styling */
+    /* Google Form Button Styling */
+    .google-form-button {
+        background-color: var(--citi-blue);
+        color: var(--citi-white);
+        border: 2px solid var(--citi-light-blue);
+        border-radius: 10px;
+        padding: 10px 20px;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        margin-left: 20px;
+        font-weight: bold;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .google-form-button:hover {
+        background-color: var(--citi-button-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+    }
+
+    /* Existing styles remain the same */
     .stTextInput > div > div > input {
         border: 2px solid var(--citi-blue);
         border-radius: 8px;
         padding: 10px;
     }
 
-    /* Chat Message Styling */
     .user-message {
         background-color: var(--citi-light-blue);
         color: white;
@@ -69,6 +93,14 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+
+# In your Streamlit app, you can add the button like this
+st.markdown("""
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeg4V_DfpXpj24rgBtiLUVOJ0aaQRwBCkh0QsNcnmDzSPG18g/viewform?usp=sf_link" class="google-form-button" target="_blank">
+        Provide Feedback
+    </a>
+""", unsafe_allow_html=True)
+
 
 def escape_math_symbols(text):
     """
