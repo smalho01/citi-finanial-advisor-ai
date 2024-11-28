@@ -80,6 +80,10 @@ st.markdown("""
         font-weight: bold;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
+    
+    #form-button {
+        color: white
+    }
 
     .google-form-button:hover {
         background-color: var(--citi-button-hover);
@@ -121,7 +125,7 @@ st.markdown("""
 
 # In your Streamlit app, you can add the button like this
 st.markdown("""
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeg4V_DfpXpj24rgBtiLUVOJ0aaQRwBCkh0QsNcnmDzSPG18g/viewform?usp=sf_link" class="google-form-button" target="_blank">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeg4V_DfpXpj24rgBtiLUVOJ0aaQRwBCkh0QsNcnmDzSPG18g/viewform?usp=sf_link" class="google-form-button" id="form-button" target="_blank">
         Provide Feedback
     </a>
 """, unsafe_allow_html=True)
