@@ -10,16 +10,73 @@ from langchain_community.utilities.wolfram_alpha import WolframAlphaAPIWrapper
 from langchain_community.utilities.alpha_vantage import AlphaVantageAPIWrapper
 from langchain_community.tools.yahoo_finance_news import YahooFinanceNewsTool
 from langchain_core.tools import Tool
+from langchain_core.prompts import ChatPromptTemplate
 
+# Custom CSS for Citi Bank branding
+st.markdown("""
+<style>
+    /* Citi Bank Color Palette */
+    :root {
+        --citi-blue: #003CA6;  /* Primary Citi blue */
+        --citi-light-blue: #00A4E4;  /* Accent blue */
+        --citi-white: #FFFFFF;
+        --citi-gray: #F5F5F5;
+    }
+
+    /* App Container Styling */
+    .stApp {
+        background-color: var(--citi-gray);
+        color: var(--citi-blue);
+    }
+
+    /* Header Styling */
+    .stTitle {
+        color: var(--citi-blue);
+        font-weight: bold;
+        text-align: center;
+    }
+
+    /* Chat Input Styling */
+    .stTextInput > div > div > input {
+        border: 2px solid var(--citi-blue);
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    /* Chat Message Styling */
+    .user-message {
+        background-color: var(--citi-light-blue);
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .assistant-message {
+        background-color: white;
+        border: 1px solid var(--citi-blue);
+        color: var(--citi-blue);
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    /* Escape math formatting */
+    .stMarkdown p {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 # Show title and description.
-st.title("💬 Chatbot")
+st.title("💬 Citi Bank Financial Assistant")
 
 ### Important part.
 # Create a session state variable to flag whether the app has been initialized.
 # This code will only be run first time the app is loaded.
 if "memory" not in st.session_state: ### IMPORTANT.
-    model_type="gpt-4o-mini"
+    model_type="gpt-4o"
 
     # initialize the momory
     max_number_of_exchanges = 15
@@ -234,7 +291,6 @@ if "memory" not in st.session_state: ### IMPORTANT.
     Economic conditions
     """
 
-    from langchain_core.prompts import ChatPromptTemplate
     prompt = ChatPromptTemplate.from_messages(
         [
             ("system", system_prompt),
@@ -248,19 +304,22 @@ if "memory" not in st.session_state: ### IMPORTANT.
 
 # Display the existing chat messages via `st.chat_message`.
 for message in st.session_state.memory.buffer:
-    # if (message.type in ["ai", "human"]):
-    st.chat_message(message.type).write(message.content)
+    if message.type == "human":
+        st.markdown(f'<div class="user-message">{message.content}</div>', unsafe_allow_html=True)
+    elif message.type == "ai":
+        st.markdown(f'<div class="assistant-message">{message.content}</div>', unsafe_allow_html=True)
+
 
 # Create a chat input field to allow the user to enter a message. This will display
 # automatically at the bottom of the page.
-if prompt := st.chat_input("What is up?"):
+if prompt := st.chat_input("What financial advice do you need today?"):
     
     # question
-    st.chat_message("user").write(prompt)
+    st.markdown(f'<div class="user-message">{prompt}</div>', unsafe_allow_html=True)
 
     # Generate a response using the OpenAI API.
     response = st.session_state.agent_executor.invoke({"input":prompt})['output']
 
     # response
-    st.chat_message("assistant").write(response)
+    st.markdown(f'<div class="assistant-message">{response}</div>', unsafe_allow_html=True)
     # st.write(st.session_state.memory.buffer)
