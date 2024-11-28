@@ -381,7 +381,7 @@ for message in st.session_state.memory.buffer:
 
 # Create a chat input field to allow the user to enter a message. This will display
 # automatically at the bottom of the page.
-if prompt := st.chat_input(placeholder="What financial advice do you need today?", id="chat-input"):
+if prompt := st.chat_input(placeholder="What financial advice do you need today?", key="chat-input"):
     
     # question
     safe_prompt = escape_math_symbols(prompt)
