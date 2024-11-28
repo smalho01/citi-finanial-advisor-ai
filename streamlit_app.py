@@ -49,7 +49,7 @@ st.markdown("""
             
 
 
-    .stChatInputContainer > div {
+    [data-testid="stChatInputTextArea"] {
         background-color: #FFFFFF;
         color: black
     }
