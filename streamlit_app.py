@@ -12,6 +12,7 @@ from langchain_community.utilities.alpha_vantage import AlphaVantageAPIWrapper
 from langchain_community.tools.yahoo_finance_news import YahooFinanceNewsTool
 from langchain_core.tools import Tool
 from langchain_core.prompts import ChatPromptTemplate
+from st_annotated_text import annotated_text
 
 # Updated Custom CSS for Citi Bank branding
 st.markdown("""
@@ -106,7 +107,7 @@ def escape_math_symbols(text):
     """
     Escape text between $ symbols to prevent Markdown formatting
     """
-    return text.replace('$', '&#36;')
+    return annotated_text(text.replace('$', '&#36;'))
 
 # Show title and description.
 st.title("💬 Citi Bank Financial Assistant")
