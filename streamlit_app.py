@@ -387,12 +387,12 @@ if prompt := st.chat_input("What financial advice do you need today?"):
     
     # question
     safe_prompt = escape_math_symbols(prompt)
-    st.markdown()(f'<div class="user-message">{safe_prompt}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="user-message">{safe_prompt}</div>', unsafe_allow_html=True)
 
     # Generate a response using the OpenAI API.
     response = st.session_state.agent_executor.invoke({"input":prompt})['output']
 
     # response
     safe_response = escape_math_symbols(response)
-    st.markdown()(f'<div class="assistant-message">{safe_response}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="assistant-message">{safe_response}</div>', unsafe_allow_html=True)
     # st.write(st.session_state.memory.buffer)
