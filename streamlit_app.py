@@ -12,6 +12,8 @@ from langchain_community.utilities.alpha_vantage import AlphaVantageAPIWrapper
 from langchain_community.tools.yahoo_finance_news import YahooFinanceNewsTool
 from langchain_core.tools import Tool
 from langchain_core.prompts import ChatPromptTemplate
+import mistune
+from mistune.plugins.math import render_math
 
 # Updated Custom CSS for Citi Bank branding
 st.markdown("""
@@ -101,39 +103,24 @@ st.markdown("""
     </a>
 """, unsafe_allow_html=True)
 
+def wrap_latex_with_delimiters(text):
+    # Identify block math (assume it's between blank lines or delimited sections)
+    block_math_pattern = r"(?<!\$)\n\s*([^$]+?)\s*\n"  # Matches multiline math without delimiters
+    wrapped_text = re.sub(block_math_pattern, r"\n$$\1$$\n", text)
+
+    # Identify inline math (assume it's single-line expressions)
+    inline_math_pattern = r"(?<!\$)(\b[A-Za-z0-9_]+\s*=\s*[A-Za-z0-9_+*/^()]+)(?!\$)"
+    wrapped_text = re.sub(inline_math_pattern, r"$\1$", wrapped_text)
+
+    return wrapped_text
+
 def escape_math_symbols(text):
-    """
-    Escapes and prettifies LaTeX-style math expressions for better readability
-    while handling regular text correctly.
-    """
-    dollar_replacement = text.replace('$', '&#36;')
-    def replace_latex_blocks(match):
-        """
-        Replace LaTeX math blocks with properly formatted markdown
-        """
-        latex_content = match.group(1).strip()
-        return f'$$\n{latex_content}\n$$'
-
-    def clean_and_format(text):
-        """
-        Clean up the text and improve formatting
-        """
-        # Replace square bracket math notation with proper LaTeX
-        text = re.sub(r'\[ *([^]]+) *\]', r'$$\1$$', text)
-        
-        # Ensure proper spacing around mathematical terms
-        text = re.sub(r'([a-zA-Z])=', r' \1 = ', text)
-        text = re.sub(r'=([a-zA-Z])', r'= \1', text)
-        
-        return text
-
-    # Process the input text
-    formatted_text = clean_and_format(dollar_replacement)
-    
-    # Reformat LaTeX blocks to ensure they're on separate lines
-    formatted_text = re.sub(r'\$\$\s*([^$]+)\s*\$\$', replace_latex_blocks, formatted_text)
-    
-    return formatted_text
+   
+    formatted_result = text.replace('$', '&#36;')
+    wrapped_text = wrap_latex_with_delimiters(formatted_result)
+    markdown_formatter = mistune.create_markdown(renderer=mistune.HTMLRenderer(), plugins=[render_math])
+    markdown = markdown_formatter(wrapped_text)
+    return markdown
 
 # Show title and description.
 st.title("💬 Citi Bank Financial Assistant")
