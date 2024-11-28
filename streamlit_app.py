@@ -12,26 +12,9 @@ from langchain_community.utilities.alpha_vantage import AlphaVantageAPIWrapper
 from langchain_community.tools.yahoo_finance_news import YahooFinanceNewsTool
 from langchain_core.tools import Tool
 from langchain_core.prompts import ChatPromptTemplate
-import mistune
-from mistune.plugins.math import math
 
 # Updated Custom CSS for Citi Bank branding
 st.markdown("""
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    tex2jax: {
-        inlineMath: [ ['\\(','\\)'] ],
-        displayMath: [ ['\\[','\\]'] ],
-        processEscapes: true
-    },
-    "HTML-CSS": { 
-        availableFonts: ["TeX"],
-        webFont: "TeX"
-    }
-});
-</script>
-            
 <style>
     /* Citi Bank Color Palette */
     :root {
@@ -117,6 +100,16 @@ st.markdown("""
         Provide Feedback
     </a>
 """, unsafe_allow_html=True)
+
+def escape_math_symbols(text):
+   
+    formatted_result = text.replace('$', '&#36;')
+    # Replace all [ with $$
+    formatted_result = re.sub(r'\[', r'$$', formatted_result)
+
+    # Replace all ] with $$
+    formatted_result = re.sub(r'\]', r'$$', formatted_result)
+    return formatted_result
 
 # Show title and description.
 st.title("💬 Citi Bank Financial Assistant")
@@ -322,7 +315,7 @@ if "memory" not in st.session_state: ### IMPORTANT.
 
     ## Response Format
 
-    Final output is displayed in a markdown renderer so display math functions accordingly in markdown friendly formats
+    Final output is in html text so convert any math formula defined in latex to a more human readble format
     Use short, digestible messages
     Ask follow-up questions when information is incomplete
     Provide clear, actionable recommendations
@@ -352,57 +345,27 @@ if "memory" not in st.session_state: ### IMPORTANT.
     agent = create_tool_calling_agent(chat, tools, prompt)
     st.session_state.agent_executor = AgentExecutor(agent=agent, tools=tools,  memory=st.session_state.memory, verbose= True)  # ### IMPORTANT to use st.session_state.memory and st.session_state.agent_executor.
 
-
-def render_latex_math(text):
-    """
-    Comprehensive LaTeX math rendering function
-    
-    Handles multiple math expression formats:
-    - Inline math: $x+y$
-    - Display math: $$x+y$$ or \[x+y\]
-    - Equation environments
-    """
-    # Handle display math between double dollar signs
-    text = re.sub(r'\$\$(.*?)\$\$', r'\\[\1\\]', text, flags=re.DOTALL)
-    
-    # Handle inline math between single dollar signs
-    text = re.sub(r'\$(.*?)\$', r'\\(\1\\)', text)
-    
-    # Handle math between \[ and \]
-    text = re.sub(r'\\\[(.*?)\\\]', r'\\[\1\\]', text, flags=re.DOTALL)
-    
-    return text
-
-# def escape_math_symbols(text):
-
-#     formatted_result = text.replace('$', '&#36;')
-#     # Replace all [ with $$
-#     formatted_result = re.sub(r'\[', r'$$', formatted_result)
-
-#     # Replace all ] with $$
-#     formatted_result = re.sub(r'\]', r'$$', formatted_result)
-#     return formatted_result
-
-# Modify your existing rendering code
-def display_message(message, message_type):
-# Render math in the message content
-    safe_content = render_latex_math(message.content)
-    
-    if message_type == "human":
-        st.write(f'<div class="user-message">{safe_content}</div>', unsafe_allow_html=True)
-    elif message_type == "ai":
-        st.write(f'<div class="assistant-message">{safe_content}</div>', unsafe_allow_html=True)
-
-# Replace your existing message display logic with this
+# Display the existing chat messages via `st.chat_message`.
 for message in st.session_state.memory.buffer:
-    display_message(message, message.type)
+    safe_content = escape_math_symbols(message.content)
+    if message.type == "human":
+        st.markdown(f'<div class="user-message">{safe_content}</div>', unsafe_allow_html=True)
+    elif message.type == "ai":
+        st.markdown(f'<div class="assistant-message">{safe_content}</div>', unsafe_allow_html=True)
 
-# Modify your chat input handling
+
+# Create a chat input field to allow the user to enter a message. This will display
+# automatically at the bottom of the page.
 if prompt := st.chat_input("What financial advice do you need today?"):
-    # Your existing code, but use render_latex_math for responses
-    safe_prompt = render_latex_math(prompt)
-    st.write(f'<div class="user-message">{safe_prompt}</div>', unsafe_allow_html=True)
+    
+    # question
+    safe_prompt = escape_math_symbols(prompt)
+    st.markdown(f'<div class="user-message">{safe_prompt}</div>', unsafe_allow_html=True)
 
+    # Generate a response using the OpenAI API.
     response = st.session_state.agent_executor.invoke({"input":prompt})['output']
-    safe_response = render_latex_math(response)
-    st.write(f'<div class="assistant-message">{safe_response}</div>', unsafe_allow_html=True)
+
+    # response
+    safe_response = escape_math_symbols(response)
+    st.markdown(f'<div class="assistant-message">{safe_response}</div>', unsafe_allow_html=True)
+    # st.write(st.session_state.memory.buffer)
