@@ -103,12 +103,7 @@ st.markdown("""
 
 def escape_math_symbols(text):
    
-    formatted_result = text.replace('$', '&#36;')
-    # Replace all [ with $$
-    formatted_result = re.sub(r'\[', r'$$', formatted_result)
-
-    # Replace all ] with $$
-    formatted_result = re.sub(r'\]', r'$$', formatted_result)
+    formatted_result = text.replace('$', '&#36;') 
     return formatted_result
 
 # Show title and description.
@@ -349,9 +344,9 @@ if "memory" not in st.session_state: ### IMPORTANT.
 for message in st.session_state.memory.buffer:
     safe_content = escape_math_symbols(message.content)
     if message.type == "human":
-        st.markdown(safe_content)
+        st.markdown(f'<div class="user-message">{safe_content}</div>', unsafe_allow_html=True)
     elif message.type == "ai":
-        st.markdown(safe_content)
+        st.markdown(f'<div class="assistant-message">{safe_content}</div>', unsafe_allow_html=True)
 
 
 # Create a chat input field to allow the user to enter a message. This will display
@@ -360,12 +355,12 @@ if prompt := st.chat_input("What financial advice do you need today?"):
     
     # question
     safe_prompt = escape_math_symbols(prompt)
-    st.markdown(safe_prompt)
+    st.markdown(f'<div class="user-message">{safe_prompt}</div>', unsafe_allow_html=True)
 
     # Generate a response using the OpenAI API.
     response = st.session_state.agent_executor.invoke({"input":prompt})['output']
 
     # response
     safe_response = escape_math_symbols(response)
-    st.markdown(safe_response)
+    st.markdown(f'<div class="assistant-message">{safe_response}</div>', unsafe_allow_html=True)
     # st.write(st.session_state.memory.buffer)
