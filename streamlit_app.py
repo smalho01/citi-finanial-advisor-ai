@@ -12,7 +12,7 @@ from langchain_community.utilities.alpha_vantage import AlphaVantageAPIWrapper
 from langchain_community.tools.yahoo_finance_news import YahooFinanceNewsTool
 from langchain_core.tools import Tool
 from langchain_core.prompts import ChatPromptTemplate
-from st_annotated_text import annotated_text
+from annotated_text import annotated_text
 
 # Updated Custom CSS for Citi Bank branding
 st.markdown("""
