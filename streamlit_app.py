@@ -33,6 +33,10 @@ st.markdown("""
         color: var(--citi-blue);
     }
             
+    .st-emotion-cache-1y5f4eg {
+        color: var(--citi-white);
+    }
+            
     /* Target Streamlit header */
     .stApp header {
         background-color: #c4c4c4 !important;
