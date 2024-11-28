@@ -101,43 +101,37 @@ st.markdown("""
     </a>
 """, unsafe_allow_html=True)
 
-import re
 
-def escape_and_prettify_math_symbols(text):
-    """
-    Escapes and formats LaTeX-style math expressions for better readability
-    while preserving regular text.
-    """
-    # Pattern to detect LaTeX math expressions
-    math_pattern = r'\[.*?\]|\$.*?\$'
-
-    def prettify(match):
-        # Extract matched LaTeX-style expression
-        expression = match.group(0)
-        # Remove LaTeX math delimiters
-        expression = re.sub(r'^\[|\]|\$|\\\[|\\\]', '', expression)
-        # Replace LaTeX-specific symbols with readable equivalents
-        expression = expression.replace(r'\frac', 'divide')
-        expression = expression.replace(r'\left(', '(').replace(r'\right)', ')')
-        expression = expression.replace(r'^', '**')  # Exponentiation
-        return expression
-
-    # Replace all LaTeX-style expressions with prettified versions
-    prettified_text = re.sub(math_pattern, prettify, text)
-
-    # Escape dollar signs for Markdown compatibility
-    prettified_text = prettified_text.replace('$', '&#36;')
-
-    return prettified_text
 
 
 
 def escape_math_symbols(text):
     """
-    Escape text between $ symbols to prevent Markdown formatting
+    Escapes and prettifies LaTeX-style math expressions for better readability,
+    handling both mathematical and regular text correctly.
     """
-    prettified = escape_and_prettify_math_symbols(text)
-    return prettified.replace('$', '&#36;')
+    # Pattern to detect LaTeX math expressions
+    math_pattern = r'\\text{.*?}|\\frac|\\left|\\right|\^|[{}]'
+
+    def prettify(expression):
+        """
+        Prettifies a single LaTeX-style mathematical expression.
+        """
+        # Replace common LaTeX formatting elements
+        expression = expression.replace(r'\text{', '').replace('}', '')
+        expression = expression.replace(r'\frac', 'divide')
+        expression = expression.replace(r'\left(', '(').replace(r'\right)', ')')
+        expression = expression.replace(r'^', '**')  # Convert exponentiation
+        expression = expression.replace(r'{', '').replace(r'}', '')  # Remove brackets
+        return expression
+
+    # Apply prettify to any matched LaTeX-like pattern
+    text = re.sub(math_pattern, prettify, text)
+
+    # Escape dollar signs for Markdown
+    text = text.replace('$', '&#36;')
+
+    return text
 
 # Show title and description.
 st.title("💬 Citi Bank Financial Assistant")
