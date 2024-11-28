@@ -39,7 +39,7 @@ st.markdown("""
     }
             
     /* Target Streamlit footer */
-    .stBottom, .st-emotion-cache-hzygls, .st-emotion-cache-arzcut, .st-emotion-cache-0, .st-emotion-cache-1n76uvr, .stElementContainer {
+    .stBottom, .st-emotion-cache-hzygls, .st-emotion-cache-arzcut, .st-emotion-cache-1n76uvr, .stElementContainer {
         background-color: #c4c4c4 !important;
     }
 
