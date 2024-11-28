@@ -13,7 +13,7 @@ from langchain_community.tools.yahoo_finance_news import YahooFinanceNewsTool
 from langchain_core.tools import Tool
 from langchain_core.prompts import ChatPromptTemplate
 import mistune
-from mistune.plugins.math import render_math
+from mistune.plugins.math import math
 
 # Updated Custom CSS for Citi Bank branding
 st.markdown("""
@@ -118,7 +118,7 @@ def escape_math_symbols(text):
    
     formatted_result = text.replace('$', '&#36;')
     wrapped_text = wrap_latex_with_delimiters(formatted_result)
-    markdown_formatter = mistune.create_markdown(renderer=mistune.HTMLRenderer(), plugins=[render_math])
+    markdown_formatter = mistune.create_markdown(renderer=mistune.HTMLRenderer(), plugins=[math])
     markdown = markdown_formatter(wrapped_text)
     return markdown
 
