@@ -7,7 +7,7 @@ from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain_community.utilities import GoogleSerperAPIWrapper
 import os
 from langchain_community.utilities.wolfram_alpha import WolframAlphaAPIWrapper
-# from langchain_community.utilities.alpha_vantage import AlphaVantageAPIWrapper
+from langchain_community.utilities.alpha_vantage import AlphaVantageAPIWrapper
 from langchain_community.tools.yahoo_finance_news import YahooFinanceNewsTool
 from langchain_core.tools import Tool
 
@@ -61,9 +61,74 @@ if "memory" not in st.session_state: ### IMPORTANT.
     # # Google Finance 
     # os.environ["SERPAPI_API_KEY"] = st.secrets["SERP_API"]
     # google_finance_tools = load_tools(["google-finance"])
- 
 
-    tools = [datetoday, serper_tool, wolfram_toolkit, YahooFinanceNewsTool()]
+    # Alpha Vantage Tool 
+    os.environ["ALPHAVANTAGE_API_KEY"] = st.secrets["ALPHAVANTAGE_API_KEY"]
+
+    # Initialize Alpha Vantage API Wrapper
+    alpha_vantage = AlphaVantageAPIWrapper()
+
+    # Tool for currency exchange rates
+    exchange_rate_tool = Tool(
+        name="Currency Exchange Rate",
+        description="Get the exchange rate between two currencies. Provide 'from_currency' and 'to_currency' as inputs.",
+        func=lambda query: alpha_vantage._get_exchange_rate(*query.split(","))
+    )
+
+    # Tool for daily time series
+    time_series_daily_tool = Tool(
+        name="Time Series Daily",
+        description="Get daily time series data for a stock. Provide the stock symbol as input.",
+        func=alpha_vantage._get_time_series_daily
+    )
+
+    # Tool for weekly time series
+    time_series_weekly_tool = Tool(
+        name="Time Series Weekly",
+        description="Get weekly time series data for a stock. Provide the stock symbol as input.",
+        func=alpha_vantage._get_time_series_weekly
+    )
+
+    # Tool for stock quote
+    quote_tool = Tool(
+        name="Stock Quote",
+        description="Get the latest stock price and volume information. Provide the stock symbol as input.",
+        func=alpha_vantage._get_quote_endpoint
+    )
+
+    # Tool for symbol search
+    symbol_search_tool = Tool(
+        name="Symbol Search",
+        description="Search for stock symbols. Provide a partial or full name of a company as input.",
+        func=alpha_vantage.search_symbols
+    )
+
+    # Tool for market news sentiment
+    market_news_tool = Tool(
+        name="Market News Sentiment",
+        description="Get live and historical market news sentiment for a given asset. Provide the stock symbol as input.",
+        func=alpha_vantage._get_market_news_sentiment
+    )
+
+    # Tool for top gainers, losers, and most active stocks
+    top_gainers_losers_tool = Tool(
+        name="Top Gainers and Losers",
+        description="Get the top 20 gainers, losers, and most active stocks in the US market. No input needed.",
+        func=lambda _: alpha_vantage._get_top_gainers_losers()
+    )
+
+
+    alpha_vantage_tools = [
+    exchange_rate_tool,
+    time_series_daily_tool,
+    time_series_weekly_tool,
+    quote_tool,
+    symbol_search_tool,
+    market_news_tool,
+    top_gainers_losers_tool,
+    ]
+
+    tools = [datetoday, serper_tool, wolfram_toolkit, YahooFinanceNewsTool()] + alpha_vantage_tools
     
     # Now we add the memory object to the agent executor
     # prompt = hub.pull("hwchase17/react-chat")
@@ -124,6 +189,12 @@ if "memory" not in st.session_state: ### IMPORTANT.
     WolframAlpha API: Advanced computational and financial calculations
     Google Serper: Real-time information gathering
     Yahoo Finance News: Latest financial news and market trends
+    Currency Exchange Rate Tool: Get exchange rates between currencies
+    Stock Time Series Tools: Daily/Weekly stock price data
+    Stock Quote Tool: Latest stock price and volume information
+    Symbol Search Tool: Find stock symbols for companies
+    Market News Sentiment Tool: Live and historical market news sentiment
+    Market Overview Tools: Top gainers and losers most active stocks in US market
 
     ## Tool Usage Guidelines
 
