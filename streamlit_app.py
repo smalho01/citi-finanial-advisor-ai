@@ -106,6 +106,10 @@ st.markdown("""
 def escape_math_symbols(text):
    
     formatted_result = text.replace('$', '&#36;')
+    formatted_result = re.sub(r'^\[\s*(.*?)\s*\]$', r'$$\1$$', formatted_result, flags=re.MULTILINE)
+
+    # Replace brackets for inline equations with $
+    formatted_result = re.sub(r'\[(.*?)\]', r'$\1$', formatted_result)
     return formatted_result
 
 # Show title and description.
