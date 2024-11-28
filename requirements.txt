@@ -1,6 +1,6 @@
 streamlit
 openai
-langchain==0.2.10
+langchain
 langchain_openai==0.2.9
 langchain_community
 langchain_core
