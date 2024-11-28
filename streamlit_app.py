@@ -3,7 +3,7 @@ from langchain.memory import ConversationBufferWindowMemory
 from langchain_openai import ChatOpenAI
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 # from langchain import hub
-from langchain_community.agent_toolkits.load_tools import load_tools
+# from langchain_community.agent_toolkits.load_tools import load_tools
 from langchain_community.utilities import GoogleSerperAPIWrapper
 import os
 from langchain_community.utilities.wolfram_alpha import WolframAlphaAPIWrapper
@@ -58,12 +58,12 @@ if "memory" not in st.session_state: ### IMPORTANT.
         description="Use WolframAlpha for complex mathematical or scientific queries."
     )
 
-    # Google Finance 
-    os.environ["SERPAPI_API_KEY"] = st.secrets["SERP_API"]
-    google_finance_tools = load_tools(["google-finance"])
+    # # Google Finance 
+    # os.environ["SERPAPI_API_KEY"] = st.secrets["SERP_API"]
+    # google_finance_tools = load_tools(["google-finance"])
  
 
-    tools = [datetoday, serper_tool, wolfram_toolkit, google_finance_tools, YahooFinanceNewsTool()]
+    tools = [datetoday, serper_tool, wolfram_toolkit, YahooFinanceNewsTool()]
     
     # Now we add the memory object to the agent executor
     # prompt = hub.pull("hwchase17/react-chat")
@@ -123,7 +123,6 @@ if "memory" not in st.session_state: ### IMPORTANT.
     datetoday(): Current date and time reference
     WolframAlpha API: Advanced computational and financial calculations
     Google Serper: Real-time information gathering
-    Google Finance: Current market data and financial information
     Yahoo Finance News: Latest financial news and market trends
 
     ## Tool Usage Guidelines
