@@ -361,6 +361,7 @@ def render_latex_math(text):
     3. Escapes special HTML characters to prevent rendering issues
     """
     # Escape HTML special characters
+    text = escape_math_symbols(text)
     text = text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
     
     # Replace inline math expressions
@@ -372,15 +373,15 @@ def render_latex_math(text):
     
     return text
 
-# def escape_math_symbols(text):
+def escape_math_symbols(text):
 
-#     formatted_result = text.replace('$', '&#36;')
-#     # Replace all [ with $$
-#     formatted_result = re.sub(r'\[', r'$$', formatted_result)
+    formatted_result = text.replace('$', '&#36;')
+    # Replace all [ with $$
+    formatted_result = re.sub(r'\[', r'$$', formatted_result)
 
-#     # Replace all ] with $$
-#     formatted_result = re.sub(r'\]', r'$$', formatted_result)
-#     return formatted_result
+    # Replace all ] with $$
+    formatted_result = re.sub(r'\]', r'$$', formatted_result)
+    return formatted_result
 
 # Modify your existing rendering code
 def display_message(message, message_type):
