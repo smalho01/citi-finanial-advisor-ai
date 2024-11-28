@@ -6,4 +6,4 @@ langchain_community
 langchain_core
 wolframalpha
 google-search-results 
-mistune
+mdtex2html

@@ -12,6 +12,8 @@ from langchain_community.utilities.alpha_vantage import AlphaVantageAPIWrapper
 from langchain_community.tools.yahoo_finance_news import YahooFinanceNewsTool
 from langchain_core.tools import Tool
 from langchain_core.prompts import ChatPromptTemplate
+import mdtex2html
+
 
 # Updated Custom CSS for Citi Bank branding
 st.markdown("""
@@ -104,6 +106,8 @@ st.markdown("""
 def escape_math_symbols(text):
    
     formatted_result = text.replace('$', '&#36;') 
+    formatted_result = mdtex2html.convert(formatted_result)
+
     return formatted_result
 
 # Show title and description.
@@ -310,7 +314,7 @@ if "memory" not in st.session_state: ### IMPORTANT.
 
     ## Response Format
 
-    Final output is in html text so convert any math formula defined in latex to a more human readble format
+    Final output is rendered in markdown so make sure any math formulas are in a friendly format
     Use short, digestible messages
     Ask follow-up questions when information is incomplete
     Provide clear, actionable recommendations
