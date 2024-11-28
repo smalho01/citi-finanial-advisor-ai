@@ -101,12 +101,43 @@ st.markdown("""
     </a>
 """, unsafe_allow_html=True)
 
+import re
+
+def escape_and_prettify_math_symbols(text):
+    """
+    Escapes and formats LaTeX-style math expressions for better readability
+    while preserving regular text.
+    """
+    # Pattern to detect LaTeX math expressions
+    math_pattern = r'\[.*?\]|\$.*?\$'
+
+    def prettify(match):
+        # Extract matched LaTeX-style expression
+        expression = match.group(0)
+        # Remove LaTeX math delimiters
+        expression = re.sub(r'^\[|\]|\$|\\\[|\\\]', '', expression)
+        # Replace LaTeX-specific symbols with readable equivalents
+        expression = expression.replace(r'\frac', 'divide')
+        expression = expression.replace(r'\left(', '(').replace(r'\right)', ')')
+        expression = expression.replace(r'^', '**')  # Exponentiation
+        return expression
+
+    # Replace all LaTeX-style expressions with prettified versions
+    prettified_text = re.sub(math_pattern, prettify, text)
+
+    # Escape dollar signs for Markdown compatibility
+    prettified_text = prettified_text.replace('$', '&#36;')
+
+    return prettified_text
+
+
 
 def escape_math_symbols(text):
     """
     Escape text between $ symbols to prevent Markdown formatting
     """
-    return text.replace('$', '&#36;')
+    prettified = escape_and_prettify_math_symbols(text)
+    return prettified.replace('$', '&#36;')
 
 # Show title and description.
 st.title("💬 Citi Bank Financial Assistant")
@@ -345,9 +376,9 @@ if "memory" not in st.session_state: ### IMPORTANT.
 for message in st.session_state.memory.buffer:
     safe_content = escape_math_symbols(message.content)
     if message.type == "human":
-        st.latex(f'<div class="user-message">{safe_content}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="user-message">{safe_content}</div>', unsafe_allow_html=True)
     elif message.type == "ai":
-        st.latex(f'<div class="assistant-message">{safe_content}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="assistant-message">{safe_content}</div>', unsafe_allow_html=True)
 
 
 # Create a chat input field to allow the user to enter a message. This will display
@@ -356,12 +387,12 @@ if prompt := st.chat_input("What financial advice do you need today?"):
     
     # question
     safe_prompt = escape_math_symbols(prompt)
-    st.latex()(f'<div class="user-message">{safe_prompt}</div>', unsafe_allow_html=True)
+    st.markdown()(f'<div class="user-message">{safe_prompt}</div>', unsafe_allow_html=True)
 
     # Generate a response using the OpenAI API.
     response = st.session_state.agent_executor.invoke({"input":prompt})['output']
 
     # response
     safe_response = escape_math_symbols(response)
-    st.latex()(f'<div class="assistant-message">{safe_response}</div>', unsafe_allow_html=True)
+    st.markdown()(f'<div class="assistant-message">{safe_response}</div>', unsafe_allow_html=True)
     # st.write(st.session_state.memory.buffer)
