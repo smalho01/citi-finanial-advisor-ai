@@ -60,7 +60,7 @@ if "memory" not in st.session_state: ### IMPORTANT.
 
     # Google Finance 
     os.environ["SERP_API_KEY"] = st.secrets["SERP_API"]
-    google_finance_tools = load_tools(["google-scholar", "google-finance"])
+    google_finance_tools = load_tools(["google-finance"])
  
 
     tools = [datetoday, serper_tool, wolfram_toolkit, google_finance_tools, YahooFinanceNewsTool()]
