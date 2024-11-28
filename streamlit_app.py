@@ -106,8 +106,34 @@ def escape_math_symbols(text):
     Escapes and prettifies LaTeX-style math expressions for better readability
     while handling regular text correctly.
     """
-    prettified_text = text.replace('$', '&#36;')
-    return prettified_text
+    dollar_replacement = text.replace('$', '&#36;')
+    def replace_latex_blocks(match):
+        """
+        Replace LaTeX math blocks with properly formatted markdown
+        """
+        latex_content = match.group(1).strip()
+        return f'$$\n{latex_content}\n$$'
+
+    def clean_and_format(text):
+        """
+        Clean up the text and improve formatting
+        """
+        # Replace square bracket math notation with proper LaTeX
+        text = re.sub(r'\[ *([^]]+) *\]', r'$$\1$$', text)
+        
+        # Ensure proper spacing around mathematical terms
+        text = re.sub(r'([a-zA-Z])=', r' \1 = ', text)
+        text = re.sub(r'=([a-zA-Z])', r'= \1', text)
+        
+        return text
+
+    # Process the input text
+    formatted_text = clean_and_format(dollar_replacement)
+    
+    # Reformat LaTeX blocks to ensure they're on separate lines
+    formatted_text = re.sub(r'\$\$\s*([^$]+)\s*\$\$', replace_latex_blocks, formatted_text)
+    
+    return formatted_text
 
 # Show title and description.
 st.title("💬 Citi Bank Financial Assistant")
