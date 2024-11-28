@@ -32,6 +32,16 @@ st.markdown("""
         background-color: var(--citi-gray);
         color: var(--citi-blue);
     }
+            
+    /* Target Streamlit header */
+    .stApp header {
+        background-color: #e0e0e0 !important;
+    }
+
+    /* Target Streamlit footer */
+    .stApp footer {
+        background-color: #e0e0e0 !important;
+    }
 
     /* Enhanced Header Styling */
     .stTitle {
