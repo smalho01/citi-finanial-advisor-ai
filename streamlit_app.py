@@ -127,7 +127,7 @@ if "memory" not in st.session_state: ### IMPORTANT.
 
     # Tool for currency exchange rates
     exchange_rate_tool = Tool(
-        name="CurrencyExchangeRate",
+        name="CurrencyExchange",
         description="Get the exchange rate between two currencies. Provide 'from_currency' and 'to_currency' as inputs.",
         func=lambda query: alpha_vantage._get_exchange_rate(*query.split(","))
     )
