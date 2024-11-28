@@ -326,61 +326,6 @@ if "memory" not in st.session_state: ### IMPORTANT.
     Economic conditions
     """
 
-    # Add MathJax configuration to your existing CSS or Streamlit markdown
-    st.markdown("""
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ['\\(','\\)'] ],
-            displayMath: [ ['\\[','\\]'] ]
-        }
-    });
-    </script>
-    """, unsafe_allow_html=True)
-
-    def render_latex_math(text):
-        """
-        Converts LaTeX math expressions to a format that can be rendered by MathJax.
-        
-        This function does the following:
-        1. Handles inline math expressions (between $ symbols)
-        2. Handles display math expressions (between $$ or \[ and \] symbols)
-        3. Escapes special HTML characters to prevent rendering issues
-        """
-        # Escape HTML special characters
-        text = text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
-        
-        # Replace inline math expressions
-        text = re.sub(r'\$(.+?)\$', r'\\(\1\\)', text)
-        
-        # Replace display math expressions
-        text = re.sub(r'\\\[(.+?)\\\]', r'\\[\1\\]', text)
-        text = re.sub(r'\$\$(.+?)\$\$', r'\\[\1\\]', text)
-        
-        return text
-
-    # def escape_math_symbols(text):
-    
-    #     formatted_result = text.replace('$', '&#36;')
-    #     # Replace all [ with $$
-    #     formatted_result = re.sub(r'\[', r'$$', formatted_result)
-
-    #     # Replace all ] with $$
-    #     formatted_result = re.sub(r'\]', r'$$', formatted_result)
-    #     return formatted_result
-
-    # Modify your existing rendering code
-    def display_message(message, message_type):
-    # Render math in the message content
-        safe_content = render_latex_math(message.content)
-        
-        if message_type == "human":
-            st.write(f'<div class="user-message">{safe_content}</div>', unsafe_allow_html=True)
-        elif message_type == "ai":
-            st.write(f'<div class="assistant-message">{safe_content}</div>', unsafe_allow_html=True)
-
-
     prompt = ChatPromptTemplate.from_messages(
         [
             ("system", system_prompt),
@@ -391,6 +336,61 @@ if "memory" not in st.session_state: ### IMPORTANT.
     )
     agent = create_tool_calling_agent(chat, tools, prompt)
     st.session_state.agent_executor = AgentExecutor(agent=agent, tools=tools,  memory=st.session_state.memory, verbose= True)  # ### IMPORTANT to use st.session_state.memory and st.session_state.agent_executor.
+
+
+# Add MathJax configuration to your existing CSS or Streamlit markdown
+st.markdown("""
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['\\(','\\)'] ],
+        displayMath: [ ['\\[','\\]'] ]
+    }
+});
+</script>
+""", unsafe_allow_html=True)
+
+def render_latex_math(text):
+    """
+    Converts LaTeX math expressions to a format that can be rendered by MathJax.
+    
+    This function does the following:
+    1. Handles inline math expressions (between $ symbols)
+    2. Handles display math expressions (between $$ or \[ and \] symbols)
+    3. Escapes special HTML characters to prevent rendering issues
+    """
+    # Escape HTML special characters
+    text = text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+    
+    # Replace inline math expressions
+    text = re.sub(r'\$(.+?)\$', r'\\(\1\\)', text)
+    
+    # Replace display math expressions
+    text = re.sub(r'\\\[(.+?)\\\]', r'\\[\1\\]', text)
+    text = re.sub(r'\$\$(.+?)\$\$', r'\\[\1\\]', text)
+    
+    return text
+
+# def escape_math_symbols(text):
+
+#     formatted_result = text.replace('$', '&#36;')
+#     # Replace all [ with $$
+#     formatted_result = re.sub(r'\[', r'$$', formatted_result)
+
+#     # Replace all ] with $$
+#     formatted_result = re.sub(r'\]', r'$$', formatted_result)
+#     return formatted_result
+
+# Modify your existing rendering code
+def display_message(message, message_type):
+# Render math in the message content
+    safe_content = render_latex_math(message.content)
+    
+    if message_type == "human":
+        st.write(f'<div class="user-message">{safe_content}</div>', unsafe_allow_html=True)
+    elif message_type == "ai":
+        st.write(f'<div class="assistant-message">{safe_content}</div>', unsafe_allow_html=True)
 
 # Replace your existing message display logic with this
 for message in st.session_state.memory.buffer:
