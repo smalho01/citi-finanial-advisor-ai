@@ -48,9 +48,10 @@ st.markdown("""
     }
             
     /* Make the text box text more readable */
-    # .st-ae {
-    #     background-color: #FFFFFF;
-    # }
+    .st-c5 {
+        background-color: #FFFFFF;
+        color: black
+    }
             
     text-area {
         color: black
