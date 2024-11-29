@@ -52,7 +52,7 @@ st.markdown("""
     [data-testid="stChatInputTextArea"] {
         background-color: #FFFFFF;
         color: black
-        caret-color: dark-grey;
+        caret-color: auto;
     }
 
 
