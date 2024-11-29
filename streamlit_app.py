@@ -137,31 +137,6 @@ st.markdown("""
         border-radius: 8px;
         margin-bottom: 10px;
 
-    p {
-        overflow-x: auto; /* Enables horizontal scrolling if content overflows */
-        overflow-y: hidden; /* Prevents vertical scrolling */
-        white-space: nowrap; /* Prevents content from wrapping */
-        scrollbar-width: thin; /* Makes the scrollbar thinner (Firefox) */
-        scrollbar-color: #888 #f0f0f0; /* Custom colors for scrollbar (Firefox) */
-    }
-    
-    p::-webkit-scrollbar {
-        height: 10px; /* Horizontal scrollbar height (for WebKit browsers) */
-    }
-    
-    p::-webkit-scrollbar-thumb {
-        background: #888; /* Thumb color */
-        border-radius: 5px; /* Rounded scrollbar thumb */
-    }
-    
-    p::-webkit-scrollbar-thumb:hover {
-        background: #555; /* Thumb color on hover */
-    }
-    
-    p::-webkit-scrollbar-track {
-        background: #f0f0f0; /* Track color */
-    }
-
     /* Escape math formatting */
     .stMarkdown p {
         white-space: pre-wrap;
