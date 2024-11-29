@@ -47,7 +47,29 @@ st.markdown("""
         background-color: #c4c4c4 !important;
     }
             
-
+    .blockformula {
+        overflow-x: auto; /* Enables horizontal scrolling if content overflows */
+        overflow-y: hidden; /* Prevents vertical scrolling */
+        white-space: nowrap; /* Prevents content from wrapping */
+        scrollbar-width: thin; /* Makes the scrollbar thinner (Firefox) */
+        scrollbar-color: #888 #f0f0f0; /* Custom colors for scrollbar (Firefox) */
+    }
+    
+    .blockformula::-webkit-scrollbar {
+        height: 10px; /* Horizontal scrollbar height (for WebKit browsers) */
+    }
+    
+    .pblockformula::-webkit-scrollbar-thumb {
+        background: #888; /* Thumb color */
+        border-radius: 5px; /* Rounded scrollbar thumb */
+    }
+    
+    .blockformula::-webkit-scrollbar-thumb:hover {
+        background: #555; /* Thumb color on hover */
+    }
+    
+    .blockformula::-webkit-scrollbar-track {
+        background: #f0f0f0; /* Track color */
 
     [data-testid="stChatInputTextArea"] {
         background-color: #FFFFFF;
