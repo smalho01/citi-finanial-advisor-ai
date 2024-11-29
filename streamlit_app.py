@@ -136,6 +136,28 @@ st.markdown("""
         padding: 10px;
         border-radius: 8px;
         margin-bottom: 10px;
+        overflow-x: auto; /* Enables horizontal scrolling if content overflows */
+        overflow-y: hidden; /* Prevents vertical scrolling */
+        white-space: nowrap; /* Prevents content from wrapping */
+        scrollbar-width: thin; /* Makes the scrollbar thinner (Firefox) */
+        scrollbar-color: #888 #f0f0f0; /* Custom colors for scrollbar (Firefox) */
+    }
+    
+    .assistant-message::-webkit-scrollbar {
+        height: 10px; /* Horizontal scrollbar height (for WebKit browsers) */
+    }
+    
+    .assistant-message::-webkit-scrollbar-thumb {
+        background: #888; /* Thumb color */
+        border-radius: 5px; /* Rounded scrollbar thumb */
+    }
+    
+    .assistant-message::-webkit-scrollbar-thumb:hover {
+        background: #555; /* Thumb color on hover */
+    }
+    
+    .assistant-message::-webkit-scrollbar-track {
+        background: #f0f0f0; /* Track color */
     }
 
     /* Escape math formatting */
