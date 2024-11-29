@@ -120,31 +120,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown("""
-<script type="text/javascript">
-MathJax = {
-  options: {
-    enableMenu: false, // Disable the MathJax menu for simplicity
-  },
-  chtml: {
-    displayAlign: "left", // Align equations to the left
-    displayIndent: "2em", // Add indentation for equations
-  },
-  tex: {
-    inlineMath: [["$", "$"], ["\\(", "\\)"]],
-    displayMath: [["$$", "$$"], ["\\[", "\\]"]],
-  },
-  startup: {
-    typeset: false // Disable automatic typesetting; we'll trigger it manually
-  }
-};
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
-""", unsafe_allow_html=True)
-
-
 # In your Streamlit app, you can add the button like this
 st.markdown("""
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSeg4V_DfpXpj24rgBtiLUVOJ0aaQRwBCkh0QsNcnmDzSPG18g/viewform?usp=sf_link" class="google-form-button" id="form-button" target="_blank">
@@ -416,12 +391,4 @@ if prompt := st.chat_input(placeholder="What financial advice do you need today?
     st.markdown(f'<div class="assistant-message">{safe_response}</div>', unsafe_allow_html=True)
     # st.write(st.session_state.memory.buffer)
 
-
-st.markdown("""
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    MathJax.typeset();  // Trigger MathJax rendering after DOM updates
-});
-</script>
-""", unsafe_allow_html=True)
 
