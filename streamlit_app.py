@@ -70,6 +70,7 @@ st.markdown("""
     
     .blockformula::-webkit-scrollbar-track {
         background: #f0f0f0; /* Track color */
+    }
 
     [data-testid="stChatInputTextArea"] {
         background-color: #FFFFFF;
