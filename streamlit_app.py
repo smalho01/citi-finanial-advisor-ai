@@ -128,11 +128,16 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 def escape_math_symbols(text):
-   
-    formatted_result = text.replace('$', '&#36;') 
-    formatted_result = mdtex2html.convert(formatted_result)
-
+    formatted_result = mdtex2html.convert(text)
+    formatted_result = formatted_result.replace('$', '&#36;') 
     return formatted_result
+    
+st.markdown("""
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+""", unsafe_allow_html=True)
+
 
 # Show title and description.
 st.title("💬 Citi Bank Financial Assistant")
@@ -392,3 +397,13 @@ if prompt := st.chat_input(placeholder="What financial advice do you need today?
     safe_response = escape_math_symbols(response)
     st.markdown(f'<div class="assistant-message">{safe_response}</div>', unsafe_allow_html=True)
     # st.write(st.session_state.memory.buffer)
+
+
+st.markdown("""
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    MathJax.typeset();  // Trigger MathJax rendering
+});
+</script>
+""", unsafe_allow_html=True)
+
