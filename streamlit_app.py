@@ -130,7 +130,7 @@ st.markdown("""
     }
 
     .logo {
-        max-width: 500px; /* Adjust the size of the logo */
+        max-width: 50spx; /* Adjust the size of the logo */
     }
 </style>
 """, unsafe_allow_html=True)
