@@ -120,6 +120,27 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+st.markdown("""
+<style>
+    .logo-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .logo {
+        max-width: 150px;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<div class="logo-container">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Citi.svg" alt="Citi Bank Logo" class="logo">
+</div>
+""", unsafe_allow_html=True)
+
+
 # In your Streamlit app, you can add the button like this
 st.markdown("""
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSeg4V_DfpXpj24rgBtiLUVOJ0aaQRwBCkh0QsNcnmDzSPG18g/viewform?usp=sf_link" class="google-form-button" id="form-button" target="_blank">
