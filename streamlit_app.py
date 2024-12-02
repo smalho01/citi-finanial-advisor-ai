@@ -123,13 +123,14 @@ st.markdown("""
 st.markdown("""
 <style>
     .logo-container {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 20px;
+        position: absolute;
+        top: 10px; /* Adjust to control the vertical positioning */
+        left: 10px; /* Adjust to control the horizontal positioning */
+        margin-bottom: 0;
     }
 
     .logo {
-        max-width: 100px;
+        max-width: 500px; /* Adjust the size of the logo */
     }
 </style>
 """, unsafe_allow_html=True)
