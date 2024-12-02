@@ -129,7 +129,7 @@ st.markdown("""
     }
 
     .logo {
-        max-width: 150px;
+        max-width: 100px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -154,7 +154,7 @@ def escape_math_symbols(text):
     return formatted_result
 
 # Show title and description.
-st.title("💬 Citi Bank Financial Assistant")
+st.title("💬 Citi Financial Assistant")
 
 ### Important part.
 # Create a session state variable to flag whether the app has been initialized.
