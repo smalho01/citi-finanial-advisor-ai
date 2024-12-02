@@ -129,7 +129,7 @@ st.markdown("""
         margin-left: 20px;
     }
 
-    .img {
+    img.logo {
         max-width: 150px;
     }
 </style>
